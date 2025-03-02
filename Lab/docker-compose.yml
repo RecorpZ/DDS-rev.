@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  user_service:
+    build: ./user_service
+    ports:
+      - "5000:5000"
+  auth_service:
+    build: ./auth_service
+    ports:
+      - "5001:5001"
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    depends_on:
+      - user_service
+      - auth_service
