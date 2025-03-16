@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pytest
+httpx
+torch
+opencv-python

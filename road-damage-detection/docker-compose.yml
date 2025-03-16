@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  video-upload-service:
+    build:
+      context: ./video-upload-service
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./video-upload-service:/app
+    environment:
+      - ENV_VAR_NAME=value
+    depends_on:
+      - db
+
+  video-analysis-service:
+    build:
+      context: ./video-analysis-service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./video-analysis-service:/app
+    environment:
+      - ENV_VAR_NAME=value
+    depends_on:
+      - db
+
+  report-service:
+    build:
+      context: ./report-service
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
+    volumes:
+      - ./report-service:/app
+    environment:
+      - ENV_VAR_NAME=value
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: github_secret_username
+      POSTGRES_PASSWORD: github_secret_password
+      POSTGRES_DB: road_damage_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
